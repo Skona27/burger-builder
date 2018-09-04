@@ -4,18 +4,21 @@ import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 
 const burger = props => {
   // we create an array of burger ingredients
-  const ingredientsArr = Object.keys(props.ingredients).map(
+  let ingredients = Object.keys(props.ingredients).map(
     ingredientKey => {
       return [...Array(props.ingredients[ingredientKey])].map((el, ind) => {
         return <BurgerIngredient key={ingredientKey +"-"+ ind} type={ingredientKey} />
       });
-    }  
-  );
+    }).reduce((prevEl, currEl) => [...prevEl, ...currEl], []);
   
+  if(ingredients.length === 0) {
+    ingredients = <p>Please start adding the ingredients!</p>;
+  }
+
   return (
     <div className={classes.Burger}>
       <BurgerIngredient type="bread-top" />
-        {ingredientsArr}
+        {ingredients}
       <BurgerIngredient type="bread-bottom" />
     </div>
   );
